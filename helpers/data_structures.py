@@ -11,3 +11,7 @@ customers_options = {
     'paymenMethod': ['Bank transfer (automatic)', 'Credit card (automatic)', 'Electronic check', 'Mailed check'],
 
 }
+
+class_names = ['Churn', 'No Churn']
+
+num_cols = ["tenure", 'monthlycharges', 'totalcharges']

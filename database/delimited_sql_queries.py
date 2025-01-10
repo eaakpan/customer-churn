@@ -60,3 +60,31 @@ def select_input_from_customers():
     ''')
 
     return df
+
+def select_from_customers_for_batch_prediction():
+    df = db.query(''' 
+    SELECT
+        gender,
+        SeniorCitizen,
+        Partner,
+        Dependents,
+        tenure,
+        PhoneService,
+        MultipleLines,
+        InternetService,
+        OnlineSecurity,
+        OnlineBackup,
+        DeviceProtection,
+        TechSupport,
+        StreamingTV,
+        StreamingMovies,
+        Contract,
+        PaperlessBilling,
+        PaymentMethod,
+        MonthlyCharges,
+        totalcharges,
+        churn
+    from churnset.customers
+    ''')
+
+    return df

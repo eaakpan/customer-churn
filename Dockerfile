@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r /code/requirements.txt
 
 COPY ./src ./src
 COPY ./database ./database
+COPY ./modeling ./modeling
 COPY ./helpers ./helpers
 COPY ./config ./config
 COPY ./data ./data

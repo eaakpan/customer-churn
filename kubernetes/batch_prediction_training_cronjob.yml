@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: synthetic-data-gen
+  name: batch-prediction-training
 spec:
   schedule: "*/2 * * * *"
   jobTemplate:
@@ -11,14 +11,7 @@ spec:
           containers:
           - name: example-script
             image: eakpan15/churn-dashboard:0.0.1
-            command: ["python", "database/synthetic_data.py"]
-            volumeMounts:
-            - name: script-volume
-              mountPath: /scripts
+            command: ["python", "modeling/batch_model_training.py"]
           restartPolicy: OnFailure
-          volumes:
-          - name: script-volume
-            configMap:
-              name: example-script-configmap
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
