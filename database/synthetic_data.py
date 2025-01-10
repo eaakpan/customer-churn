@@ -5,7 +5,7 @@ import uuid
 
 def generate_synthetic_data(input_df, n_samples):
     """
-    Generates synthetic dataa based on the distributions of the existing dataset.
+    Generates synthetic data based on the distributions of the existing dataset.
 
     Parameters:
         input_df (pd.DataFrame): Original DataFrame to sample distributions from.
