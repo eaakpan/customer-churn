@@ -2,7 +2,7 @@ import dash
 import base64
 from dash import dcc, html, Input, Output, State
 import plotly.express as px
-from helpers.data_structures import get_customer_columns
+from database.delimited_sql_queries import select_input_from_customers
 from helpers.modeling_helper import predict_callback, batch_predict_callback
 from helpers.data_viz_helper import list_value_counts
 import pandas as pd
@@ -42,7 +42,7 @@ def register_callbacks(app):
                            onlineSecurity,onlineBackup,deviceProtection,techSupport,streamingTv,streamingMovies,contract,
                            paperlessBilling,paymentMethod,monthlyCharges, totalCharges]
 
-            customer_columns = get_customer_columns(['churn', 'customerid'])
+            customer_columns = select_input_from_customers().columns
 
             customer_df = pd.DataFrame(columns=customer_columns)
             customer_df.loc[0] = [gender, senior,partner,dependents,tenure,phoneService,multipleLines,internetService,
