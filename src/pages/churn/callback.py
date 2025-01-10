@@ -58,15 +58,6 @@ def register_callbacks(app):
         return ""
 
 
-    # @app.callback(
-    #     Output('single-prediction-output', 'children'),
-    #     Input('customer-df', 'data'),
-    # )
-    # def predict_single_customer(customer_df):
-    #         # Placeholder for prediction logic
-    #     return f"Prediction: Churn probability for the given customer is X% (Replace with model output)."
-
-    # Callback for batch upload prediction
     @app.callback(
         Output('batch-prediction-output', 'children'),
         Input('upload-data', 'contents'),
@@ -101,7 +92,7 @@ def register_callbacks(app):
 
             return html.Div([
                 html.H5(f"File uploaded: {filename}"),
-                html.P("Predictions for the batch are generated (Replace with actual model output)."),
+                html.P("Predictions for the batch are generated"),
                 dcc.Graph(figure=fig)
             ])
 

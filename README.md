@@ -87,3 +87,5 @@
 - Start service on Minikube: ```minikube service {name}```
 - Redeploy image/service after making coding change:
 ```kubectl delete -f {path to deployment yaml};docker rmi {image};docker build -t {image} .;kubectl apply -f {path to yaml}```
+- Create cronjob: ```kubectl create -f [path/to/cronjob-name] --save-config```
+- Delete cronjob: ```kubectl delete cronjob [cronjob-name]```

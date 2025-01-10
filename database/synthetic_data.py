@@ -51,19 +51,20 @@ def generate_synthetic_data(input_df, n_samples):
 
     return synthetic_data
 
+if __name__ == '__main__':
+    # Load the uploaded CSV
+    file_path = 'data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+    data = pd.read_csv(file_path)
 
-# Load the uploaded CSV
-file_path = 'data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
-data = pd.read_csv(file_path)
+    # Generate synthetic data based on the existing dataset
+    synthetic_data = generate_synthetic_data(data, n_samples=1000)
 
-# Generate synthetic data based on the existing dataset
-synthetic_data = generate_synthetic_data(data, n_samples=1000)
-
-# Bulk insert data to db
-db = MyDatabase()
-db.insert(synthetic_data,'customers')
+    # Bulk insert data to db
+    db = MyDatabase()
+    db.insert(synthetic_data,'customers')
 
 
-# Write to csv
-# synthetic_data.drop(columns = ['Churn', 'customerID']).to_csv('data/batch_upload_example.csv', index=False)
+# # Write to csv
+# synthetic_data.columns = synthetic_data.columns.str.lower()
+# synthetic_data.drop(columns = ['churn', 'customerid']).to_csv('data/batch_upload_example.csv', index=False)
 
