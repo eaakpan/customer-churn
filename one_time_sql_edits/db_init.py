@@ -34,5 +34,6 @@ db.create_table(f'''CREATE TABLE IF NOT EXISTS {schema}.customers (
     PaymentMethod VARCHAR(30),
     MonthlyCharges NUMERIC(10, 2),
     TotalCharges NUMERIC(15, 2),
-    Churn VARCHAR(3) CHECK (Churn IN ('Yes', 'No'))
+    Churn VARCHAR(3) CHECK (Churn IN ('Yes', 'No')),
+    created_at TIMESTAMP NOT NULL DEFAULT now()
 );''')

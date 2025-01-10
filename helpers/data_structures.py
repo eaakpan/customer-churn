@@ -1,13 +1,5 @@
 from config import MyDatabase
-
-
-def get_customer_columns(without=None):
-    db = MyDatabase()
-    df = db.query(''' select * from churnset.customers''')
-    if without:
-        df.drop(columns=without, inplace=True)
-    return df.columns
-
+from database.delimited_sql_queries import select_all_from_customers
 
 contract_options = ['Month-to-month', 'One year', 'Two year']
 

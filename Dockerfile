@@ -10,7 +10,7 @@ COPY ./src ./src
 COPY ./database ./database
 COPY ./helpers ./helpers
 COPY ./config ./config
-COPY ./data /./data
+COPY ./data ./data
 COPY ./app.py ./src/app.py
 
 ENV PYTHONPATH /code
