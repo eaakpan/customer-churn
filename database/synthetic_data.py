@@ -7,7 +7,7 @@ def generate_synthetic_data(input_df, n_samples):
     """
     Generates synthetic data based on the distributions of the existing dataset.
 
-    Parameters:
+    Parametrs:
         input_df (pd.DataFrame): Original DataFrame to sample distributions from.
         n_samples (int): Number of synthetic rows to generate.
 
