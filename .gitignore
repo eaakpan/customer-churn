@@ -7,3 +7,4 @@ local_files/
 .env
 .idea/
 dbnavigator.xml
+idea/dbnavigator.xml

@@ -20,5 +20,6 @@ CREATE TABLE IF NOT EXISTS customers (
     MonthlyCharges NUMERIC(10, 2),
     TotalCharges NUMERIC(15, 2),
     Churn VARCHAR(3) CHECK (Churn IN ('Yes', 'No')),
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    last_modified TIMESTAMP NOT NULL DEFAULT now()
 );
