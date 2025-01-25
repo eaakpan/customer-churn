@@ -3,6 +3,7 @@ import psycopg2.extras as extras
 import pandas as pd
 from dotenv import load_dotenv, find_dotenv
 import os
+from pyspark.sql import SparkSession
 
 
 load_dotenv(find_dotenv('config/.env'))
@@ -154,4 +155,41 @@ churn_rates = { 'No':0.73463013,
                 'Yes':0.26536987}
 
 
-################################################################################
+#########################################################################################################
+
+########################################### PySpark #####################################################
+
+from pyspark.sql import SparkSession
+
+os.environ['SPARK_HOME'] = os.path.join(os.getcwd(),'venv','Lib','site-packages','pyspark')
+
+
+spark = SparkSession.builder\
+        .master(os.getenv('PYSPARK_MASTER_URL'))\
+        .appName(os.getenv('PYSPARK_APPNAME'))\
+        .config(os.getenv('PYSPARK_CONFIG_KEY'), os.getenv('PYSPARK_PORT'))\
+        .getOrCreate()
+
+postgres_url = f"jdbc:postgresql://{os.getenv('POSTGRES_HOST')}"\
+                f":{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
+
+properties = {
+    "user": os.getenv('POSTGRES_USER'),
+    "password": os.getenv('POSTGRES_PASSWORD'),
+    "driver": "org.postgresql.Driver"
+}
+table_name = "churnset.customers"
+
+
+df = spark.read.jdbc(postgres_url, table_name, properties=properties)
+df.show()
+
+spark = SparkSession.builder.getOrCreate()
+
+
+import pyspark
+sc = pyspark.SparkContext()
+sc
+
+
+#########################################################################################################
