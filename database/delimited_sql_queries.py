@@ -27,7 +27,8 @@ def select_all_from_customers():
         MonthlyCharges,
         TotalCharges,
         Churn,
-        created_at
+        created_at,
+        last_modified
     from churnset.customers
     ''')
 
@@ -85,6 +86,39 @@ def select_from_customers_for_batch_prediction():
         totalcharges,
         churn
     from churnset.customers
+    ''')
+
+    return df
+
+
+def select_null_churn_from_customers():
+    df = db.query(''' 
+    SELECT
+        customerID,
+        gender,
+        SeniorCitizen,
+        Partner,
+        Dependents,
+        tenure,
+        PhoneService
+        MultipleLines,
+        InternetService,
+        OnlineSecurity,
+        OnlineBackup,
+        DeviceProtection
+        TechSupport,
+        StreamingTV,
+        StreamingMovies,
+        Contract,
+        PaperlessBilling,
+        PaymentMethod,
+        MonthlyCharges,
+        TotalCharges,
+        churn,
+        created_at,
+        last_modified
+    from churnset.customers
+    WHERE churn is null
     ''')
 
     return df

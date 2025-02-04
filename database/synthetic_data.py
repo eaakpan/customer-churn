@@ -20,6 +20,9 @@ def generate_synthetic_data(input_df, n_samples):
         if column == 'customerID':
             # Generate unique customer IDs
             synthetic_data[column] = [str(uuid.uuid4()) for _ in range(n_samples)]
+        elif column == 'Churn':
+            # For any other data types, fill with NaN or placeholder
+            synthetic_data[column] = [None] * n_samples
         elif input_df[column].dtype == 'object':
             # For categorical columns, sample based on value counts
             synthetic_data[column] = np.random.choice(

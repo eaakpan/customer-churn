@@ -1,9 +1,13 @@
 # ignore ALL .log files
 *.log
 
+# ignore ALL saved model files
+*.joblib
+
 # ignore ALL files in ANY directory named temp
 local_files/
 
 .env
 .idea/
 dbnavigator.xml
+idea/dbnavigator.xml
