@@ -159,37 +159,25 @@ churn_rates = { 'No':0.73463013,
 
 ########################################### PySpark #####################################################
 
-from pyspark.sql import SparkSession
+class PySparkConnection:
+    def __init__(self):
+        os.environ['SPARK_HOME'] = os.path.join(os.getcwd(), 'venv', 'Lib', 'site-packages', 'pyspark')
+        os.environ['HADOOP_HOME'] = os.path.join(os.getcwd(), 'venv', 'Lib', 'site-packages', 'pyspark')
+        self.spark = SparkSession.builder\
+            .master(os.getenv('PYSPARK_MASTER_URL'))\
+            .appName(os.getenv('PYSPARK_APPNAME'))\
+            .config(os.getenv('PYSPARK_CONFIG_KEY'), os.getenv('PYSPARK_PORT'))\
+            .getOrCreate()
+        self.postgres_url = f"jdbc:postgresql://{os.getenv('POSTGRES_HOST')}"\
+                            f":{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
+        self.properties = {
+                "user": os.getenv('POSTGRES_USER'),
+                "password": os.getenv('POSTGRES_PASSWORD'),
+                "driver": "org.postgresql.Driver"
+            }
 
-os.environ['SPARK_HOME'] = os.path.join(os.getcwd(),'venv','Lib','site-packages','pyspark')
-
-
-spark = SparkSession.builder\
-        .master(os.getenv('PYSPARK_MASTER_URL'))\
-        .appName(os.getenv('PYSPARK_APPNAME'))\
-        .config(os.getenv('PYSPARK_CONFIG_KEY'), os.getenv('PYSPARK_PORT'))\
-        .getOrCreate()
-
-postgres_url = f"jdbc:postgresql://{os.getenv('POSTGRES_HOST')}"\
-                f":{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
-
-properties = {
-    "user": os.getenv('POSTGRES_USER'),
-    "password": os.getenv('POSTGRES_PASSWORD'),
-    "driver": "org.postgresql.Driver"
-}
-table_name = "churnset.customers"
-
-
-df = spark.read.jdbc(postgres_url, table_name, properties=properties)
-df.show()
-
-spark = SparkSession.builder.getOrCreate()
-
-
-import pyspark
-sc = pyspark.SparkContext()
-sc
+    def read(self, table):
+        return self.spark.read.jdbc(self.postgres_url, table, properties=self.properties)
 
 
 #########################################################################################################

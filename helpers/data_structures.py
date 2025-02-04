@@ -15,3 +15,10 @@ customers_options = {
 class_names = ['Churn', 'No Churn']
 
 num_cols = ["tenure", 'monthlycharges', 'totalcharges']
+
+
+batch_prediction_cols = ['gender','SeniorCitizen','Partner','Dependents','tenure','PhoneService',\
+                         'MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',\
+                         'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies',\
+                         'Contract', 'PaperlessBilling', 'PaymentMethod', 'MonthlyCharges',\
+                         'totalcharges', 'churn']
