@@ -96,6 +96,6 @@ def batch_model_training_pyspark():
     ROC_AUC = res.evaluate(results)
     print("Logistic Regression accuracy is :", ROC_AUC)
 
-    # joblib.dump(log_reg, 'src/pyspark_lr_model.joblib')
-    # log_reg.save('src/pyspark_lr_model')
+    # joblib.dump(log_reg, 'runtime_data/for_models/pyspark_lr_model.joblib')
+    # log_reg.save('runtime_data/for_models/pyspark_lr_model')
     # return print("batch model has been completed and saved")

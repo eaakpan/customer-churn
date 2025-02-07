@@ -18,7 +18,7 @@ def batch_model_training():
     print("Logistic Regression accuracy is :", accuracy_lr)
 
     # Save the trained model
-    joblib.dump(lr_model, 'src/lr_model.joblib')
+    joblib.dump(lr_model, 'runtime_data/for_models/lr_model.joblib')
 
     return print("batch model has been completed and saved")
 

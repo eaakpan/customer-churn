@@ -86,6 +86,7 @@ def select_from_customers_for_batch_prediction():
         totalcharges,
         churn
     from churnset.customers
+    where created_at >= '2025-02-01'
     ''')
 
     return df
