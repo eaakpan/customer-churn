@@ -5,7 +5,7 @@ contract_options = ['Month-to-month', 'One year', 'Two year']
 
 customers_options = {
     'binary': [{'label': 'No', 'value': 'No'}, {'label': 'Yes', 'value': 'Yes'}],
-    'seniorCitizen': [{'label': 'No', 'value': 0}, {'label': 'Yes', 'value': 1}],
+    'seniorCitizen': [{'label': 'No', 'value': 'No'}, {'label': 'Yes', 'value': 'Yes'}],
     'multipleLines': ['Yes', 'No', 'No phone service'],
     'contract': ['Month-to-month', 'One year', 'Two year'],
     'paymenMethod': ['Bank transfer (automatic)', 'Credit card (automatic)', 'Electronic check', 'Mailed check'],

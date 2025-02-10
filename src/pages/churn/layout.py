@@ -28,7 +28,7 @@ layout = html.Div([
         html.Div([
             html.Label("Senior Citizen :"),
             dcc.Dropdown(id='input-senior',  options=customers_options['seniorCitizen'], placeholder='Yes or No',
-                         value=1),
+                         value='Yes'),
         ], style={'margin-bottom': '10px'}),
 
         html.Div([

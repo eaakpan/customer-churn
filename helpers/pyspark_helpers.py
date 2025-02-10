@@ -7,8 +7,6 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 
 def pyspark_batch_training_data_cleaner(df):
-    if 'SeniorCitizen' in df.columns:
-        df = df.withColumn('SeniorCitizen', df.SeniorCitizen.cast('string'))
     train, test = df.randomSplit([0.7, 0.3])
     train.show(3)
     test.show(3)
