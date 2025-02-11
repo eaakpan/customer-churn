@@ -11,7 +11,7 @@ COPY ./database ./database
 COPY ./modeling ./modeling
 COPY ./helpers ./helpers
 COPY ./config ./config
-COPY runtime_data ./data
+COPY ./runtime_data ./runtime_data
 COPY ./app.py ./src/app.py
 
 ENV PYTHONPATH /code
