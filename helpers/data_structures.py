@@ -14,6 +14,8 @@ customers_options = {
 
 class_names = ['Churn', 'No Churn']
 
+class_names_dict = {'Yes': 'Churn', 'No': 'No Churn'}
+
 num_cols = ["tenure", 'monthlycharges', 'totalcharges']
 
 
