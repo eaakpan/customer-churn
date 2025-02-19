@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 def predict_callback(data):
-    model = joblib.load('runtime_data/for_models/lr_model.joblib')
+    model = joblib.load('runtime_data/for_models/xgbcv_model.joblib')
 
     X_test_array = single_customer_data_cleaner(data)
 
@@ -29,13 +29,14 @@ def predict_callback(data):
     return {'predicted_class': class_name}  # fastapi can't return native numpyarrays - converted to list
 
 def batch_predict_callback(data):
-    model = joblib.load('runtime_data/for_models/lr_model.joblib')
-
+    model = joblib.load('runtime_data/for_models/xgbcv_model.joblib')
+    data.totalcharges = data.totalcharges.replace(' ', '0.0').astype(float)
     X_test_array = testing_data_cleaner(data)
 
     model_pred = model.predict(X_test_array)
+    model_pred_list = list(map(lambda x: class_names_dict[0] if x == 0 else (class_names_dict[1] if x == 1  else  x), model_pred))
 
-    return {'predicted_class': model_pred.tolist()}  # fastapi can't return native numpyarrays - converted to list
+    return {'predicted_class': model_pred_list}  # fastapi can't return native numpyarrays - converted to list
 
 
 def cm_plot_2x2(cnf_matrix):
@@ -113,7 +114,7 @@ estimators=[
 
 
 
-def plot_estimators(pipes, data, target, estimators_list, n_splits=5, metrics=['f1', 'auc', 'accuracy', 'logloss']):
+def plot_estimators(pipes, data, target, estimators_list, n_splits=5, metrics=['f1', 'auc', 'accuracy', 'logloss'], show_plots=True):
     estimators = [model[0] for model in estimators_list]
 
     metrics_dict = {'f1': make_scorer(f1_score), 'auc': make_scorer(roc_auc_score),
@@ -136,13 +137,14 @@ def plot_estimators(pipes, data, target, estimators_list, n_splits=5, metrics=['
     for metric in metrics:
         score_lists[metric] = [score['test_' + metric] for score in scorers]
 
-    for i, (title, _list) in enumerate(score_lists.items()):
-        plt.figure(i)
-        plot = sns.boxplot(data=_list).set_xticklabels(labels, rotation=45)
-        plt.title(title)
-    plt.show()
+    if show_plots:
+        for i, (title, _list) in enumerate(score_lists.items()):
+            plt.figure(i)
+            plot = sns.boxplot(data=_list).set_xticklabels(labels, rotation=45)
+            plt.title(title)
+        plt.show()
 
-def tune_param(model, pipes, param_grid,data, target, refit='auc', chart=None, cv=5, metrics=['f1', 'auc', 'accuracy', 'logloss']):
+def tune_param(model, pipes, param_grid,data, target, refit='auc', chart=None, cv=5, metrics=['f1', 'auc', 'accuracy', 'logloss'], show_plots=True):
     param_grid = {model + '__' + key: param_grid[key] for key in param_grid.keys()}
 
     metrics_dict = {'auc': make_scorer(roc_auc_score)}
@@ -150,24 +152,30 @@ def tune_param(model, pipes, param_grid,data, target, refit='auc', chart=None, c
     xgbcv = GridSearchCV(pipes[model], param_grid, scoring=metrics_dict, refit=refit, cv=cv)
     xgbcv.fit(data, target)
 
-    print('best score: ' + str(xgbcv.best_score_))
-    print('best params: ' + str(xgbcv.best_params_))
+    logging.info(f'best score: {str(xgbcv.best_score_)}')
+    logging.info(f'best params: {str(xgbcv.best_params_)}')
+
+    # Save the trained model
+    logging.info(f'saving the fitted xgbcv to runtime_data/for_models/xgbcv_model.joblib')
+    joblib.dump(xgbcv, 'runtime_data/for_models/xgbcv_model.joblib')
     results = pd.DataFrame(xgbcv.cv_results_)
 
-    if 'line' in chart:
-        for i, param in enumerate(param_grid.keys()):
-            graph_data = results[['param_' + param, 'mean_test_' + refit]]
-            graph_data = graph_data.rename(columns={'mean_test_' + refit: 'test'})
-            graph_data = graph_data.melt('param_' + param, var_name='type', value_name=refit)
-            plt.figure(i)
-            plot = sns.lineplot(x='param_' + param, y=refit, hue='type', data=graph_data)
+    if show_plots:
+        if 'line' in chart:
+            for i, param in enumerate(param_grid.keys()):
+                graph_data = results[['param_' + param, 'mean_test_' + refit]]
+                graph_data = graph_data.rename(columns={'mean_test_' + refit: 'test'})
+                graph_data = graph_data.melt('param_' + param, var_name='type', value_name=refit)
+                plt.figure(i)
+                plot = sns.lineplot(x='param_' + param, y=refit, hue='type', data=graph_data)
 
-    if 'heatmap' in chart:
-        assert len(param_grid) == 2, 'heatmap only works with 2 params, {} passed'.format(str(len(param_grid)))
+        if 'heatmap' in chart:
+            assert len(param_grid) == 2, 'heatmap only works with 2 params, {} passed'.format(str(len(param_grid)))
 
-        param1 = list(param_grid.keys())[0]
-        param2 = list(param_grid.keys())[1]
+            param1 = list(param_grid.keys())[0]
+            param2 = list(param_grid.keys())[1]
 
-        graph_data = results[['param_' + param1, 'param_' + param2, 'mean_test_' + refit]]
-        graph_data = graph_data.pivot(index='param_' + param1, columns='param_' + param2, values='mean_test_' + refit)
-        sns.heatmap(graph_data, annot=True, xticklabels=True, yticklabels=True).set(xlabel=param2, ylabel=param1)
+            graph_data = results[['param_' + param1, 'param_' + param2, 'mean_test_' + refit]]
+            graph_data = graph_data.pivot(index='param_' + param1, columns='param_' + param2, values='mean_test_' + refit)
+            sns.heatmap(graph_data, annot=True, xticklabels=True, yticklabels=True).set(xlabel=param2, ylabel=param1)
+

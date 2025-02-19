@@ -65,6 +65,8 @@ if __name__ == '__main__':
 
 
 # # Write to csv
+# synthetic_data = pd.read_csv(file_path)
 # synthetic_data.columns = synthetic_data.columns.str.lower()
-# synthetic_data.drop(columns = ['churn', 'customerid']).to_csv('data/batch_upload_example.csv', index=False)
+# # synthetic_data.totalcharges = synthetic_data.totalcharges.replace(' ','0.0').astype(float)
+# synthetic_data.drop(columns = ['churn', 'customerid']).to_csv('runtime_data/example_csv/batch_upload_example.csv', index=False)
 
