@@ -149,7 +149,9 @@ def tune_param(model, pipes, param_grid,data, target, refit='auc', chart=None, c
 
     metrics_dict = {'auc': make_scorer(roc_auc_score)}
 
+    logging.info("beginning grid search cv")
     xgbcv = GridSearchCV(pipes[model], param_grid, scoring=metrics_dict, refit=refit, cv=cv)
+    logging.info("beginning model fit")
     xgbcv.fit(data, target)
 
     logging.info(f'best score: {str(xgbcv.best_score_)}')
@@ -159,7 +161,6 @@ def tune_param(model, pipes, param_grid,data, target, refit='auc', chart=None, c
     logging.info(f'saving the fitted xgbcv to runtime_data/for_models/xgbcv_model.joblib')
     joblib.dump(xgbcv, 'runtime_data/for_models/xgbcv_model.joblib')
     results = pd.DataFrame(xgbcv.cv_results_)
-
     if show_plots:
         if 'line' in chart:
             for i, param in enumerate(param_grid.keys()):

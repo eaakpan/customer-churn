@@ -3,7 +3,9 @@ kind: CronJob
 metadata:
   name: modeling-pipelines
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/20 * * * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 60
   jobTemplate:
     spec:
       template:
