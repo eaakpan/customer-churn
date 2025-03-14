@@ -1,27 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fast-api
+  name: churnset-deployment
+  namespace: churnset-namespace
   labels:
-    app: fast-api
+    app: churnset-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: fast-api
+      app: churnset-app
   template:
     metadata:
       labels:
-        app: fast-api
+        app: churnset-app
     spec:
       containers:
-      - name: fast-api
+      - name: churnset-container
         image: eakpan15/churn-dashboard:0.0.1
         ports:
         - containerPort: 8000
         resources:
           requests:
-            cpu: 1.0
-            memory: 2G
+            cpu: 500m
+            memory: 500M
           limits:
+            cpu: 1
             memory: 3G
+
