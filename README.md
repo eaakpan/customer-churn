@@ -86,7 +86,7 @@
 - Point to docker within Minikube(only lasts for terminal session):```& minikube docker-env | Invoke-Expression``` 
 - Create deployment (or redeploy): ```kubectl apply -f {path to yaml}```
 - Expose deployment: ```kubectl expose deployment {name} --type=LoadBalancer --port={port number}```
-- Start service on Minikube: ```minikube service {name}```
+- Start service on Minikube: ```minikube service {name} -n {namespace}```
 - Redeploy image/service after making coding change:
 ```kubectl delete -f {path to deployment yaml};docker rmi {image};docker build -t {image} .;kubectl apply -f {path to yaml}```
 - Create cronjob: ```kubectl create -f [path/to/cronjob-name] --save-config```
