@@ -4,10 +4,14 @@
 # ignore ALL saved model files
 *.joblib
 
+
+*.csv
+
 # ignore ALL files in ANY directory named temp
 local_files/
+cert/
 
 .env
 .idea/
 dbnavigator.xml
-idea/dbnavigator.xml
+.idea/dbnavigator.xml

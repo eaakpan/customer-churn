@@ -27,8 +27,8 @@ layout = html.Div([
 
         html.Div([
             html.Label("Senior Citizen :"),
-            dcc.Dropdown(id='input-senior',  options=customers_options['seniorCitizen'], placeholder='Yes or No',
-                         value=1),
+            dcc.Dropdown(id='input-senior',  options=customers_options['binary'], placeholder='Yes or No',
+                         value='Yes'),
         ], style={'margin-bottom': '10px'}),
 
         html.Div([
@@ -59,8 +59,8 @@ layout = html.Div([
 
         html.Div([
             html.Label("Internet Service:"),
-            dcc.Dropdown(id='input-internet-service', options=customers_options['binary'], placeholder='Yes or No',
-                         value='Yes'),
+            dcc.Dropdown(id='input-internet-service', options=customers_options['InternetService'], placeholder='DSL, Fiber optic, or No',
+                         value='DSL'),
         ], style={'margin-bottom': '10px'}),
 
         html.Div([

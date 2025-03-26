@@ -1,17 +1,19 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: synthetic-data-gen
+  name: modeling-pipelines
 spec:
-  schedule: "0 * * * *"
+  schedule: "*/20 * * * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 60
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: example-script
+          - name: modeling-pipelines-container
             image: eakpan15/churn-dashboard:0.0.1
-            command: ["python", "database/synthetic_data.py"]
+            command: ["python", "modeling/modeling_pipelines.py"]
           restartPolicy: OnFailure
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1

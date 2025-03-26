@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-db
+  namespace: postgres-example
+spec:
+  serviceName: postgresql-db-service
+  selector:
+    matchLabels:
+     app: postgresql-db
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: postgresql-db
+    spec:
+      containers:
+        - name: postgresql-db
+          image: postgres:latest
+          volumeMounts:
+            - name: postgresql-db-disk
+              mountPath: /data
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DATA
+              value: /data/pgdata
+  # Volume Claim
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-db-disk
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "minikube-hostpath"
+        resources:
+          requests:
+            storage: 1Gi

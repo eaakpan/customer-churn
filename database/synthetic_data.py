@@ -20,9 +20,9 @@ def generate_synthetic_data(input_df, n_samples):
         if column == 'customerID':
             # Generate unique customer IDs
             synthetic_data[column] = [str(uuid.uuid4()) for _ in range(n_samples)]
-        elif column == 'Churn':
-            # For any other data types, fill with NaN or placeholder
-            synthetic_data[column] = [None] * n_samples
+        # elif column == 'Churn':
+        #     # For any other data types, fill with NaN or placeholder
+        #     synthetic_data[column] = [None] * n_samples
         elif input_df[column].dtype == 'object':
             # For categorical columns, sample based on value counts
             synthetic_data[column] = np.random.choice(
@@ -31,10 +31,7 @@ def generate_synthetic_data(input_df, n_samples):
                 p=(input_df[column].value_counts(normalize=True).values)
             )
         elif np.issubdtype(input_df[column].dtype, np.number):
-            if column == 'SeniorCitizen':
-                # Ensure SeniorCitizen is binary (0 or 1)
-                synthetic_data[column] = np.random.choice([0, 1], size=n_samples, p=[0.8, 0.2])
-            elif column == 'tenure':
+            if column == 'tenure':
                 # Ensure tenure is an integer value
                 synthetic_data[column] = np.random.randint(
                     low=int(input_df[column].min()),
@@ -56,7 +53,7 @@ def generate_synthetic_data(input_df, n_samples):
 
 if __name__ == '__main__':
     # Load the uploaded CSV
-    file_path = 'data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+    file_path = 'runtime_data/example_csv/WA_Fn-UseC_-Telco-Customer-Churn.csv'
     data = pd.read_csv(file_path)
 
     # Generate synthetic data based on the existing dataset
@@ -68,6 +65,8 @@ if __name__ == '__main__':
 
 
 # # Write to csv
+# synthetic_data = pd.read_csv(file_path)
 # synthetic_data.columns = synthetic_data.columns.str.lower()
-# synthetic_data.drop(columns = ['churn', 'customerid']).to_csv('data/batch_upload_example.csv', index=False)
+# # synthetic_data.totalcharges = synthetic_data.totalcharges.replace(' ','0.0').astype(float)
+# synthetic_data.drop(columns = ['churn', 'customerid']).to_csv('runtime_data/example_csv/batch_upload_example.csv', index=False)
 

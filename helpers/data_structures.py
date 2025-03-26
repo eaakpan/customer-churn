@@ -5,14 +5,16 @@ contract_options = ['Month-to-month', 'One year', 'Two year']
 
 customers_options = {
     'binary': [{'label': 'No', 'value': 'No'}, {'label': 'Yes', 'value': 'Yes'}],
-    'seniorCitizen': [{'label': 'No', 'value': 0}, {'label': 'Yes', 'value': 1}],
     'multipleLines': ['Yes', 'No', 'No phone service'],
+    'InternetService': ['DSL', 'Fiber optic', 'No'],
     'contract': ['Month-to-month', 'One year', 'Two year'],
     'paymenMethod': ['Bank transfer (automatic)', 'Credit card (automatic)', 'Electronic check', 'Mailed check'],
 
 }
 
 class_names = ['Churn', 'No Churn']
+
+class_names_dict = {'Yes': 'Churn', 'No': 'No Churn', 0: 'No Churn', 1: 'Churn'}
 
 num_cols = ["tenure", 'monthlycharges', 'totalcharges']
 

@@ -42,12 +42,12 @@ def register_callbacks(app):
                            onlineSecurity,onlineBackup,deviceProtection,techSupport,streamingTv,streamingMovies,contract,
                            paperlessBilling,paymentMethod,monthlyCharges, totalCharges]
 
+            print(f"input list is {input_list}")
+
             customer_columns = select_input_from_customers().columns
 
             customer_df = pd.DataFrame(columns=customer_columns)
-            customer_df.loc[0] = [gender, senior,partner,dependents,tenure,phoneService,multipleLines,internetService,
-                           onlineSecurity,onlineBackup,deviceProtection,techSupport,streamingTv,streamingMovies,contract,
-                           paperlessBilling,paymentMethod,monthlyCharges, totalCharges]
+            customer_df.loc[0] = input_list
 
 
 

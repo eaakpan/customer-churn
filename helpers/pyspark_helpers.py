@@ -7,8 +7,6 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 
 def pyspark_batch_training_data_cleaner(df):
-    if 'SeniorCitizen' in df.columns:
-        df = df.withColumn('SeniorCitizen', df.SeniorCitizen.cast('string'))
     train, test = df.randomSplit([0.7, 0.3])
     train.show(3)
     test.show(3)
@@ -96,6 +94,6 @@ def batch_model_training_pyspark():
     ROC_AUC = res.evaluate(results)
     print("Logistic Regression accuracy is :", ROC_AUC)
 
-    # joblib.dump(log_reg, 'src/pyspark_lr_model.joblib')
-    # log_reg.save('src/pyspark_lr_model')
+    # joblib.dump(log_reg, 'runtime_data/for_models/pyspark_lr_model.joblib')
+    # log_reg.save('runtime_data/for_models/pyspark_lr_model')
     # return print("batch model has been completed and saved")

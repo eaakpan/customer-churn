@@ -16,7 +16,7 @@ db.create_schema(schema)
 db.create_table(f'''CREATE TABLE IF NOT EXISTS {schema}.customers (
     customerID VARCHAR(50) PRIMARY KEY,
     gender VARCHAR(10),
-    SeniorCitizen SMALLINT CHECK (SeniorCitizen IN (0, 1)),
+    SeniorCitizen VARCHAR(3) CHECK (SeniorCitizen IN ('Yes', 'No')),
     Partner VARCHAR(3) CHECK (Partner IN ('Yes', 'No')),
     Dependents VARCHAR(3) CHECK (Dependents IN ('Yes', 'No')),
     tenure INTEGER CHECK (tenure >= 0),

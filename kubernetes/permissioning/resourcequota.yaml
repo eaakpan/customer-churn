@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: cpu-mem-quota
+    namespace: churnset-namespace
+  spec:
+    hard:
+      cpu: 2
+      memory: 4G
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: pod-quota
+    namespace: churnset-namespace
+  spec:
+    hard:
+      pods: 3

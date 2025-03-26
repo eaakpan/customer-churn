@@ -58,10 +58,10 @@
 
 4. Apply YAML file for deployment
 ```   
-   $ kubectl apply -f kubernetes/deployment.yml
+   $ kubectl apply -f kubernetes/deployment.yaml
 ```
 
-5. Expose Minikube deployment:
+5. Expose deployment externally as LoadBalancer:
 ```   
    $ kubectl expose deployment fast-api --type=LoadBalancer --port=8000
 ```
@@ -73,19 +73,23 @@
 
 7. Redeploy image/service after making coding change:
 ```   
-   $  kubectl delete -f kubernetes/deployment.yml;docker rmi eakpan15/churn-dashboard:0.0.1;docker build -t eakpan15/churn-dashboard:0.0.1 .;kubectl apply -f kubernetes/deployment.yml
+   $  kubectl delete -f kubernetes/deployment.yaml;docker rmi eakpan15/churn-dashboard:0.0.1;docker build -t eakpan15/churn-dashboard:0.0.1 .;kubectl apply -f kubernetes/deployment.yaml
 ```
 
 ## Helpful Commands
 
 - Show Docker Images: ```docker images```
-- Start Minikube cluster: ```minikube start```
+- Start Minikube cluster node: ```minikube start```
+- Start multiple Minikube cluster nodes: ```minikube start --nodes 2 -p churnset-node```
 - Opem Minikube dashboard:```minikube dashboard```
 - Show Minikube services: ```minikube service list```
 - Point to docker within Minikube(only lasts for terminal session):```& minikube docker-env | Invoke-Expression``` 
-- Expose Minkube deployment: ```kubectl expose deployment {name} --type=LoadBalancer --port={port number}```
-- Start service on Minikube: ```minikube service {name}```
+- Create deployment (or redeploy): ```kubectl apply -f {path to yaml}```
+- Expose deployment: ```kubectl expose deployment {name} --type=LoadBalancer --port={port number}```
+- Start service on Minikube: ```minikube service {name} -n {namespace}```
 - Redeploy image/service after making coding change:
 ```kubectl delete -f {path to deployment yaml};docker rmi {image};docker build -t {image} .;kubectl apply -f {path to yaml}```
 - Create cronjob: ```kubectl create -f [path/to/cronjob-name] --save-config```
 - Delete cronjob: ```kubectl delete cronjob [cronjob-name]```
+- List all resources in the namespace: ```kkubectl get all```
+- List all resources in the cluster across all namespaces: ```kubectl get all -A```
