@@ -6,6 +6,8 @@
 
 
 *.csv
+# ignore k8s configmaps
+*configmap.yaml
 
 # ignore ALL files in ANY directory named temp
 local_files/
