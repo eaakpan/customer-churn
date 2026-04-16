@@ -2,7 +2,7 @@ import dash
 import base64
 from dash import dcc, html, Input, Output, State
 import plotly.express as px
-from database.delimited_sql_queries import select_input_from_customers
+from database.delimited_sql_queries import   select_input_from_customers
 from helpers.modeling_helper import predict_callback, batch_predict_callback
 from helpers.data_viz_helper import list_value_counts
 import pandas as pd

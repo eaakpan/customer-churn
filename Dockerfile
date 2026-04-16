@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.14
 
 WORKDIR /code
 
@@ -14,8 +14,8 @@ COPY ./config ./config
 COPY ./runtime_data ./runtime_data
 COPY ./app.py ./src/app.py
 
-ENV PYTHONPATH /code
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=/code
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 

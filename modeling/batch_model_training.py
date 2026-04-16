@@ -61,10 +61,10 @@ def batch_model_training(model):
 
 
 
-        cm_plot_2x2(cm)
-
-        logistic_regression_model_evaluation_dict(xgb_model, X_test_array, y_test, y_train, y_pred,
-                                                  average='binary', pos_label="Yes")
+        # cm_plot_2x2(cm)
+        #
+        # logistic_regression_model_evaluation_dict(xgb_model, X_test_array, y_test, y_train, y_pred,
+        #                                           average='binary', pos_label="Yes")
         xgb_model_evaluation = classification_model_evaluation_dict(model=xgb_model,
                                                                         X_test_array=X_test_array,
                                                                         y_test=y_test,
@@ -79,5 +79,5 @@ def batch_model_training(model):
 
 
 if __name__ == '__main__':
-    batch_model_training()
+    batch_model_training('xgBoost')
 

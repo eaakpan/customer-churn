@@ -24,17 +24,17 @@ class NumericalFeatureCleaner(BaseEstimator, TransformerMixin):
     '''
     def __init__(self, scaler=None):
         if scaler:
-            self._scalar = scaler
+            self.scalar_ = scaler
         else:
-            self._scalar = StandardScaler()
+            self.scalar_ = StandardScaler()
 
     def fit(self, X, y=None, file_path = 'runtime_data/for_models/scaler.joblib'):
         self.num_cols = X.select_dtypes(include=np.number).columns.tolist()
         logging.info(f"The number of numerical columns are: {len(self.num_cols)}")
 
-        self._scalar.fit(X[self.num_cols])
+        self.scalar_.fit(X[self.num_cols])
 
-        joblib.dump(self._scalar, filename=file_path)
+        joblib.dump(self.scalar_, filename=file_path)
         logging.info(f"StandardScaler has been saved to : {file_path}")
 
         return self
@@ -44,7 +44,7 @@ class NumericalFeatureCleaner(BaseEstimator, TransformerMixin):
         # When Transform is called, it uses the calculations from fit method.
         self.num_cols = X.select_dtypes(include=np.number).columns.tolist()
         logging.info(f"Beginning transform for: {self.num_cols}")
-        X[self.num_cols] = self._scalar.transform(X[self.num_cols])
+        X[self.num_cols] = self.scalar_.transform(X[self.num_cols])
 
         return X[self.num_cols]
 
@@ -58,24 +58,24 @@ class CategoricalFeatureCleaner(BaseEstimator, TransformerMixin):
 
     def __init__(self, enc=None, le=None):
         if enc:
-            self._enc = enc
+            self.enc_ = enc
         else:
-            self._enc = OneHotEncoder(sparse=False)
+            self.enc_ = OneHotEncoder(sparse_output=False)
         if le:
-            self._le = le
+            self.le_ = le
         else:
-            self._le = LabelEncoder()
+            self.le_ = LabelEncoder()
 
 
     def fit(self, X, y=None, file_path = 'runtime_data/for_models/enc.joblib'):
         self.cat_cols = X.select_dtypes(exclude=np.number).columns.tolist()
         logging.info(f"The number of dummy columns are: {len(self.cat_cols)}")
 
-        self._enc.fit(X[self.cat_cols])
+        self.enc_.fit(X[self.cat_cols])
         if y is not None:
-         self._le.fit(y)
+         self.le_.fit(y)
 
-        joblib.dump(self._enc, filename=file_path)
+        joblib.dump(self.enc_, filename=file_path)
         logging.info(f"OneHotEncoder has been saved to : {file_path}")
 
         return self
@@ -84,10 +84,10 @@ class CategoricalFeatureCleaner(BaseEstimator, TransformerMixin):
         self.cat_cols = X.select_dtypes(exclude=np.number).columns.tolist()
         # When Transform is called, it uses the calculations from fit method.
         logging.info(f"Beginning transform for: {self.cat_cols}")
-        self.cat_cols_transformed = self._enc.transform(X[self.cat_cols])
+        self.cat_cols_transformed = self.enc_.transform(X[self.cat_cols])
 
         if y is not None:
-            self.y_transformed = self._le.transform(y)
+            self.y_transformed = self.le_.transform(y)
             return self.cat_cols_transformed, self.y_transformed
         else:
             return self.cat_cols_transformed
